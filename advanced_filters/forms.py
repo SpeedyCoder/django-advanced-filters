@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from distutils.util import strtobool
 from pprint import pformat
 import logging
 import operator
@@ -103,7 +104,7 @@ class AdvancedFilterQueryForm(CleanWhiteSpacesMixin, forms.Form):
             formdata = self.cleaned_data
         key = "{field}__{operator}".format(**formdata)
         if formdata['operator'] == "isnull":
-            return {key: None}
+            return {key: bool(strtobool(formdata['value']))}
         elif formdata['operator'] == "istrue":
             return {formdata['field']: True}
         elif formdata['operator'] == "isfalse":
